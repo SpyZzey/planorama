@@ -1,0 +1,25 @@
+.context-menu-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 4px 2px rgba(0,0,0,0.2);
+    padding: 8px;
+    min-width: 200px;
+}
+
+.context-menu-row {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    align-items: center;
+    justify-content: stretch;
+    text-align: center;
+}
+
+.context-menu-col {
+    flex: 1;
+    height: 48px;
+    text-align: center;
+}
