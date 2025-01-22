@@ -1,0 +1,31 @@
+.viewport-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    touch-action: none; /* Prevent touch scrolling */
+    background: #f0f0f0;
+}
+
+.viewport-content {
+    position: absolute;
+    transform-origin: 0 0;
+    width: 2002px; /* Large enough to show movement */
+    height: 2002px; /* Large enough to show movement */
+    background: linear-gradient(to right, #e0e0e0 2px, transparent 1px),
+    linear-gradient(to bottom, #e0e0e0 2px, transparent 1px);
+    background-size: 50px 50px; /* Adjust grid size */
+}
+
+.draggable-item {
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    background: #007bff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    border-radius: 4px;
+}

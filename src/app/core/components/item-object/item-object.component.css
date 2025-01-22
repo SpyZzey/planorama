@@ -1,0 +1,10 @@
+
+.table-object {
+    border: 1px solid black;
+    width: auto;
+    height: 100px;
+}
+.object-image {
+    width: 100%;
+    height: 100%;
+}

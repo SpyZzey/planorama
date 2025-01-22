@@ -1,0 +1,31 @@
+<div
+        class="viewport-container"
+        (pointerdown)="onPanStart($event)"
+        (pointermove)="onPanMove($event)"
+        (pointerup)="onPanEnd($event)"
+        (pointerleave)="onPanEnd($event)"
+        (pointercancel)="onPanEnd($event)"
+        (pointerout)="onPanEnd($event)"
+
+>
+    <div
+        #viewport
+            class="viewport-content"
+            [ngStyle]="{
+      transform: 'translate(' + offsetX + 'px, ' + offsetY + 'px) scale(' + scale + ')'
+    }"
+    >
+        <div
+                *ngFor="let item of items; let i = index"
+                class="draggable-item"
+                [ngStyle]="{
+        left: item.x + 'px',
+        top: item.y + 'px'
+      }"
+                (pointerdown)="onDragStart($event, i)"
+                (touchstart)="onDragStart($event, i)"
+        >
+            {{ item.label }}
+        </div>
+    </div>
+</div>

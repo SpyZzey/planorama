@@ -1,14 +1,272 @@
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(/MaterialSymbolsSharp-Regular.ttf);
+}
+:root {
+    --drawer-width: 250px;
+    --page-margin: 6px;
+    --page-radius: 5px;
+    --header-height: 56px;
+
+    --error: #b10000;
+    --text-on-error: #ffffff;
+    --danger: #ff0000;
+    --danger-hover: #ff4141;
+    --danger-active: #c40000;
+    --text-on-danger: #ffffff;
+    --warning: #d89831;
+    --warning-hover: #ffab40;
+    --warning-active: #ffbf80;
+    --text-on-warning: #000000;
+    --success: #4caf50;
+    --success-hover: #66bb6a;
+    --success-active: #81c784;
+    --text-on-success: #ffffff;
+    --info: #357bb6;
+    --info-hover: #1a5f8a;
+    --info-active: #0f3f5b;
+    --text-on-info: #ffffff;
+
+    /* Light Theme */
+    --toolbar: var(--background);
+    --toolbar-radius: var(--page-radius);
+    --text-on-toolbar: var(--text-on-background);
+
+    --background: #f5f5f5;
+
+    --background-minimal: #d8e2ed;
+    --background-light: #ffffff;
+    --background-light-hover: #f0f0f0;
+    --background-light-active: #e0e0e0;
+
+    --background-dark: #d2d2d2;
+    --background-hover: #e0e0e0;
+    --background-active: #d9d9d9;
+    --background-disabled: #f5f5f5;
+    --background-input: #ffffff;
+    --background-switch: #cecece;
+    --background-switch-hover: #bdbdbd;
+
+    --shadow: #d0d0d0;
+
+    --primary: #45d1fe;
+    --primary-light: #7ff7ff;
+    --primary-dark: #00a3c8;
+    --primary-hover: #37a7cc;
+    --primary-active: #297d99;
+    --outline: #297d99;
+
+    --secondary: #ff4081;
+    --secondary-light: #ff79b0;
+    --secondary-dark: #c60055;
+
+    --text-on-background--light: #8396a8;
+    --text-on-background: #000000;
+    --text-on-primary: #000000;
+    --text-on-secondary: #ffffff;
+
+    --hr: rgba(131, 150, 168, 0.5);
+    --border: #919191;
+    --border-light: #b9b9b9;
+    --border-dark: #818181;
+
+    --disabled: #9e9e9e;
+
+    --box-shadow-color: rgba(0, 0, 0, 0.2);
+    --scrollbar-background: #fff;
+    --scrollbar-thumb: #7a90a7;
+
+    --checkered-background: #cccccc;
+    --checkered-background-light: #ffffff;
+
+    --chart-border: #9d9d9d;
+    --chart-lines: #cecece;
+}
+:root:has(.app-container.theme--dark) {
+    --background: #1d232a;
+    --background-medium: #1b2027;
+    --background-hover: #232a33;
+    --background-active: #28313f;
+    --background-disabled: #1d232a;
+    --background-minimal: #394c67;
+
+    --background-light: #29323d;
+    --background-light-hover: #2f3a4a;
+    --background-light-active: #28313f;
+
+    --background-dark: #0a0d10;
+
+    --background-input: #29323d;
+    --background-switch: #29323d;
+    --background-switch-hover: #2f3a4a;
+
+    --shadow: #111315;
+
+    --primary: #45d1fe;
+    --primary-light: #7ff7ff;
+    --primary-dark: #00a3c8;
+    --primary-hover: #37a7cc;
+    --primary-active: #297d99;
+    --outline: #297d99;
+
+    --secondary: #ff4081;
+    --secondary-light: #ff79b0;
+    --secondary-dark: #c60055;
+
+    --text-on-background--light: #8396a8;
+    --text-on-background: #ffffff;
+    --text-on-primary: #000000;
+    --text-on-secondary: #ffffff;
+
+    --hr: rgba(131, 150, 168, 0.5);
+    --border: #5c5c5c;
+    --border-light: #9a9a9a;
+    --border-dark: #bdbdbd;
+
+    --disabled: #9e9e9e;
+
+    --box-shadow-color: rgba(0, 0, 0, 0.2);
+    --scrollbar-thumb: #4a5568;
+    --scrollbar-background: #2d3748;
+
+    --checkered-background: #29323d;
+    --checkered-background-light: #2f3a4a;
+
+    --chart-border: #9d9d9d;
+    --chart-lines: rgb(91, 105, 120);
+}
 html,
 body {
-    padding: 0;
     margin: 0;
     height: 100%;
-    width: 100%;
-
-    font-family: Arial, sans-serif;
-
 }
-
 * {
     box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--background-dark);
+    color: var(--text-on-background);
+    height: 100%;
+}
+.app-container {
+    height: 100%;
+}
+
+button {
+    font-family: Arial;
+}
+
+.ellipso-icon {
+    font-family: 'Material Icons';
+}
+.full-width {
+    width: 100%;
+}
+.full-height {
+    height: 100%;
+}
+.flex-wrap-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.centered-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.error {
+    color: var(--error);
+}
+.success {
+    color: var(--success);
+}
+.warning {
+    color: var(--warning);
+}
+.primary {
+    color: var(--primary);
+}
+.subtext {
+    color: var(--text-on-background--light);
+}
+.small-text {
+    font-size: 0.875rem;
+}
+a.disabled {
+    background: var(--background-disabled);
+    color: var(--disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.flex-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.card {
+    color: var(--text-on-background);
+    text-decoration: none;
+    background: var(--background-light);
+    border-radius: var(--page-radius);
+    box-shadow: 0 1px 3px 0 var(--shadow);
+    padding: 1rem;
+    margin: 1rem;
+    cursor: pointer;
+    &:hover {
+        background: var(--background-light-hover);
+    }
+    &:active {
+        background: var(--background-light-active);
+    }
+}
+.page-spacer {
+    height: 80px;
+    width: 100%;
+}
+
+button {
+    font-family: Arial;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid var(--border);
+    aspect-ratio: 1;
+    width: 80px !important;
+    height: 80px !important;
+    position: relative;
+}
+
+button .main-icon {
+    position: absolute;
+    font-size: 4rem !important;
+    transform: translateY(-50%) translateX(-50%);
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+}
+.button-icons {
+    > * {
+        color: var(--text-on-background--light);
+        position: absolute;
+        font-size: 1.8rem !important;
+    }
+    > *:nth-child(1) {
+        top: 30%;
+        left: 5px;
+        transform: translateY(-50%);
+        position: absolute;
+    }
+    > *:nth-child(2) {
+        top: 30%;
+        right: 5px;
+        transform: translateY(-50%);
+        position: absolute;
+    }
 }
