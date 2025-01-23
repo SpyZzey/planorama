@@ -1,22 +1,86 @@
 .context-menu-container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 4px 2px rgba(0,0,0,0.2);
-    padding: 8px;
-    min-width: 200px;
+    width: 200px;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.05);
     background: white;
+    border-radius: 12px;
+    position: relative;
+    animation: fadeIn 0.5s;
+    z-index: 3;
+}
+.close-item-selection-button {
+}
+.context-menu-container > .close-button {
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+}
+.context-menu-container > button {
+    position: absolute;
+    background: white;
+    cursor: pointer;
+    min-width: 32px;
+    min-height: 32px;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.05);
+
+    width: 32px !important;
+    height: 32px !important;
 }
 
+.context-menu-container button {
+    text-align: start;
+    justify-content: start;
+    padding: 0 4px;
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.menu-item-group {
+    display: flex;
+    flex-direction: row;
+}
+.menu-item-group > .menu-item {
+    flex: 1;
+    justify-content: center;
+}
+.item-selection-menu {
+    position: relative;
+    z-index: 5;
+}
+
+.menu-element:not(:last-child) {
+    border-bottom: 1px solid var(--border);
+}
+.menu-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    font-size: 0.875rem;
+    height: 40px;
+    background-color: var(--background);
+    > ellipso-icon {
+        font-size: 1.2rem;
+    }
+    &:hover {
+        background: var(--background-hover);
+    }
+    &:active {
+        background: var(--background-active);
+    }
+}
 .context-menu-row {
     display: flex;
     flex-direction: row;
     gap: 2px;
     align-items: center;
-    justify-content: stretch;
+    justify-content: space-around;
     text-align: center;
+    width: 100%;
 }
 
 .context-menu-col {

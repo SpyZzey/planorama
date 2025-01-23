@@ -1,1 +1,98 @@
-<p>item-context-menu works!</p>
+<div class="item-context-container">
+    <div
+        class="menu-list"
+        *ngIf="submenu == 'main'">
+        <div
+            class="add-note menu-item"
+            (click)="changeSubmenu('add-note')">
+            <ellipso-icon> {{ item.drawing ? 'edit_document' : 'note_add' }}</ellipso-icon>
+            {{ item.drawing ? 'Edit' : 'Add' }} Note
+        </div>
+        <div
+            class="change-color menu-item"
+            (click)="changeSubmenu('color-picker')">
+            <ellipso-icon>palette</ellipso-icon>
+            Edit Color
+        </div>
+        <div
+            class="change-color menu-item"
+            (click)="onDuplicate()">
+            <ellipso-icon>content_copy</ellipso-icon>
+            Duplicate Object
+        </div>
+        <div
+            class="change-color menu-item error"
+            (click)="changeSubmenu('delete-confirm')">
+            <ellipso-icon class="error">delete_forever</ellipso-icon>
+            Delete
+        </div>
+    </div>
+
+    <div
+        class="delete-confirm submenu"
+        *ngIf="submenu == 'delete-confirm'">
+        <div class="delete-confirm--text">Are you sure you want to delete this item?</div>
+
+        <div style="display: flex; gap: 4px">
+            <button
+                class="error"
+                style="background-color: var(--error)"
+                ellipso-ghost-button
+                (click)="deleteItem()">
+                <span style="color: var(--text-on-error)">Delete</span>
+            </button>
+            <button
+                class=""
+                ellipso-ghost-button
+                (click)="closeMenu()">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <div
+        class="color-picker submenu"
+        *ngIf="submenu == 'color-picker'">
+        <ellipso-color-picker
+            [(color)]="color"
+            [showAlpha]="false"
+            [showPreview]="false"
+            [small]="true" />
+        <button
+            class="color-picker--apply-button"
+            ellipso-ghost-button
+            (click)="applyColor()">
+            Apply
+        </button>
+    </div>
+
+    <div
+        class="add-note submenu"
+        *ngIf="submenu == 'add-note'">
+        <app-draw-notes
+            #drawNotes
+            [drawing]="item.drawing" />
+        <button
+            class="color-picker--apply-button"
+            ellipso-ghost-button
+            (click)="saveDrawing(drawNotes.serializeDrawing())">
+            Save
+        </button>
+    </div>
+
+    <button
+        *ngIf="submenu != 'main'"
+        class="back-button"
+        ellipso-icon-button
+        (click)="changeSubmenu('main')"
+        title="Back">
+        <ellipso-icon>arrow_back</ellipso-icon>
+    </button>
+    <button
+        class="close-button"
+        ellipso-icon-button
+        (click)="closed.emit()"
+        title="Close Menu">
+        <ellipso-icon>close</ellipso-icon>
+    </button>
+</div>

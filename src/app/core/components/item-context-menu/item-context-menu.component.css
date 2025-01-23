@@ -1,0 +1,102 @@
+.item-context-container {
+    width: 200px;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.05);
+    background: white;
+    border-radius: 12px;
+    position: relative;
+    animation: fadeIn 0.5s;
+    z-index: 3;
+}
+.item-context-container:has(.menu-item:last-child:hover)::after {
+    border-color: var(--background-hover) transparent transparent transparent;
+}
+
+.item-context-container::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px;
+    border-style: solid;
+    border-color: var(--background) transparent transparent transparent; /* Adjust colors for the arrow */
+    display: block;
+}
+.item-context-container > .close-button {
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+}
+.item-context-container > .back-button {
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+.item-context-container > button {
+    position: absolute;
+    background: white;
+    cursor: pointer;
+    min-width: 32px;
+    min-height: 32px;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.05);
+
+    width: 32px !important;
+    height: 32px !important;
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.menu-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    font-size: 0.875rem;
+    height: 40px;
+    background-color: var(--background);
+    > ellipso-icon {
+        font-size: 1.2rem;
+    }
+    &:not(:last-child) {
+        border-bottom: 1px solid var(--border);
+    }
+    &:hover {
+        background: var(--background-hover);
+    }
+    &:active {
+        background: var(--background-active);
+    }
+}
+
+.submenu {
+    padding: 6px;
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+}
+
+.submenu button {
+    width: 100%;
+    height: 32px;
+}
+.delete-confirm--text {
+    font-size: 0.875rem;
+    color: var(--error);
+    margin-bottom: 8px;
+    margin-top: 8px;
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

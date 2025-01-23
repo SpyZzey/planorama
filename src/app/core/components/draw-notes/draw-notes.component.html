@@ -1,0 +1,26 @@
+<div class="canvas-container">
+    <canvas
+        #canvas
+        width="190"
+        (pointerdown)="startDrawing($event)"
+        (pointermove)="draw($event)"
+        (pointerup)="stopDrawing()"
+        (pointerleave)="stopDrawing()"></canvas>
+    <div class="controls">
+        <button
+            ellipso-icon-button
+            (click)="setToDrawMode()">
+            <ellipso-icon>stylus</ellipso-icon>
+        </button>
+        <button
+            ellipso-icon-button
+            (click)="setToEraseMode()">
+            <ellipso-icon>ink_eraser</ellipso-icon>
+        </button>
+        <button
+            ellipso-icon-button
+            (click)="clearCanvas()">
+            <ellipso-icon class="error">delete_forever</ellipso-icon>
+        </button>
+    </div>
+</div>

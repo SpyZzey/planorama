@@ -1,8 +1,126 @@
+.table-object * {
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+.context-container {
+    position: relative;
+}
 
+.rotate-handle {
+    position: relative;
+    left: 50%;
+    top: 20px;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    color: var(--primary-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    > ellipso-icon {
+        font-size: 1.25rem;
+    }
+}
+.rotate-handle:after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    width: 1px;
+    height: 20px;
+    background-color: var(--primary-dark);
+}
+
+.resize-handles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+}
+.resize-handle:nth-child(1) {
+    top: 0;
+    left: 0;
+    cursor: nwse-resize !important;
+}
+.resize-handle:nth-child(2) {
+    top: 0;
+    left: 100%;
+    cursor: nesw-resize !important;
+}
+.resize-handle:nth-child(3) {
+    top: 100%;
+    left: 0;
+    cursor: nesw-resize !important;
+}
+.resize-handle:nth-child(4) {
+    top: 100%;
+    left: 100%;
+    cursor: nwse-resize !important;
+}
+.resize-handle {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    pointer-events: auto;
+    > .handle {
+        width: 8px;
+        height: 8px;
+        background-color: var(--primary-dark);
+        border-radius: 50%;
+    }
+}
+
+.table-object-container {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    padding: 4px;
+    border-radius: 6px;
+}
+.table-object-container.selected {
+    outline: 2px dashed var(--primary-dark); /* Blue dashed outline */
+}
 .table-object {
-    border: 1px solid black;
+    --url: url('/objects/microphone.svg');
+    --tint-color: rgb(255, 255, 255);
     width: auto;
     height: 100px;
+    position: relative;
+}
+.table-object:before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    position: absolute;
+
+    display: inline-block;
+    background-color: var(--tint-color);
+    -webkit-mask-image: var(--url);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-image: var(--url);
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+.table-object.selected {
 }
 .object-image {
     width: 100%;

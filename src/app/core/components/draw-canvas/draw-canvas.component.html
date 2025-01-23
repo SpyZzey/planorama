@@ -1,0 +1,10 @@
+<div class="canvas-container">
+    <canvas
+        #canvas
+        width="2002"
+        height="2002"
+        (pointerdown)="startDrawing($event)"
+        (pointermove)="draw($event)"
+        (pointerup)="stopDrawing()"
+        (pointerleave)="stopDrawing()"></canvas>
+</div>

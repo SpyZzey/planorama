@@ -1,39 +1,167 @@
-<div class="smarttable" [ngStyle]="{
-    transform: 'rotate(' + rotation + 'deg)'
-}">
-    <div class="smarttable-toolbar">
-        <button ellipso-ghost-button type="button" title="Import Objects">
-            <ellipso-icon class="main-icon" style="color: green;">
-                download
-            </ellipso-icon>
-            <div class="button-icons">
-                <ellipso-icon>
-                    table_bar
-                </ellipso-icon>
-                <ellipso-icon>
-                    chair_alt
-                </ellipso-icon>
+<div
+    class="start-menu"
+    *ngIf="menu === 'start'">
+    <div class="menu-card">
+        <h2>Welcome!</h2>
+        <div class="menu-list">
+            <div
+                class="menu-item"
+                (click)="menu = 'import-room'">
+                <ellipso-icon>download</ellipso-icon>
+                Import Room
             </div>
+            <div class="menu-item">
+                <ellipso-icon>description</ellipso-icon>
+                ToDos & Notes
+            </div>
+            <div class="menu-item">
+                <ellipso-icon>chair</ellipso-icon>
+                List of Objects
+            </div>
+            <div class="menu-item">
+                <ellipso-icon>group</ellipso-icon>
+                List of Members
+            </div>
+        </div>
+    </div>
+</div>
+<div
+    class="import-room-menu start-menu"
+    *ngIf="menu === 'import-room'">
+    <div class="menu-card">
+        <h2>Import a Room!</h2>
+        <div class="menu-list">
+            <div
+                class="menu-item import-room-menu-item"
+                (click)="menu = 'smarttable'">
+                <img
+                    class="img"
+                    src="/Roomplan.png" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    *ngIf="menu === 'smarttable'"
+    class="smarttable"
+    [ngStyle]="{
+        transform: 'rotate(' + rotation + 'deg)',
+    }">
+    <div class="smarttable-toolbar">
+        <div class="flex-row">
+            <button
+                ellipso-ghost-button
+                type="button"
+                title="Import Objects">
+                <ellipso-icon
+                    class="main-icon2"
+                    style="color: green">
+                    download
+                </ellipso-icon>
+                <div class="button-icons">
+                    <ellipso-icon> chair_alt </ellipso-icon>
+                    <!-- <ellipso-icon> table_bar </ellipso-icon> -->
+                </div>
+            </button>
+            <button
+                ellipso-ghost-button
+                type="button"
+                title="Export">
+                <ellipso-icon
+                    class="main-icon"
+                    style="color: purple">
+                    upload
+                </ellipso-icon>
+            </button>
+            <button
+                ellipso-ghost-button
+                type="button"
+                (click)="onRotateScreen()"
+                title="Rotate Screen 180°">
+                <ellipso-icon
+                    class="main-icon"
+                    style="font-size: 3rem !important">
+                    screen_rotation
+                </ellipso-icon>
+            </button>
+        </div>
+        <div class="flex-row">
+            <button
+                ellipso-ghost-button
+                type="button"
+                (click)="onUndo()"
+                title="Undo">
+                <ellipso-icon
+                    class="main-icon"
+                    style="font-size: 3rem !important">
+                    undo
+                </ellipso-icon>
+            </button>
+            <button
+                ellipso-ghost-button
+                type="button"
+                (click)="onRedo()"
+                title="Redo">
+                <ellipso-icon
+                    class="main-icon"
+                    style="font-size: 3rem !important">
+                    redo
+                </ellipso-icon>
+            </button>
+            <button
+                ellipso-ghost-button
+                type="button"
+                (click)="onToggleFullScreen()"
+                title="Rotate Screen 180°">
+                <ellipso-icon
+                    class="main-icon"
+                    style="font-size: 3rem !important">
+                    {{ isFullScreen ? 'fullscreen_exit' : 'fullscreen' }}
+                </ellipso-icon>
+            </button>
+            <button
+                ellipso-ghost-button
+                type="button"
+                (click)="onTogglePanAndZoom()"
+                title="Rotate Screen 180°">
+                <div
+                    class="button-crossed-out"
+                    *ngIf="!isPanAndZoomEnabled"></div>
+                <ellipso-icon
+                    class="main-icon"
+                    style="font-size: 3rem !important">
+                    drag_pan
+                </ellipso-icon>
+            </button>
+        </div>
+    </div>
+    <!--
+    <div class="fixed-pen-selection">
+        <button
+            ellipso-icon-button
+            (click)="onSelectDrawType('pen')"
+            [class.selected]="drawType === 'pen'">
+            <ellipso-icon> stylus </ellipso-icon>
         </button>
-        <button ellipso-ghost-button type="button" title="Export">
-            <ellipso-icon class="main-icon" style="color: purple;">
-                upload
-            </ellipso-icon>
+        <button
+            ellipso-icon-button
+            (click)="onSelectDrawType('highlighter')"
+            [class.selected]="drawType === 'highlighter'">
+            <ellipso-icon> ink_highlighter </ellipso-icon>
         </button>
-        <button ellipso-ghost-button type="button" (click)="onRotateScreen()" title="Rotate Screen 180°">
-            <ellipso-icon class="main-icon" style="font-size: 3rem !important">
-                screen_rotation
-            </ellipso-icon>
-        </button>
-        <button ellipso-ghost-button type="button" (click)="onToggleFullScreen()" title="Rotate Screen 180°">
-            <ellipso-icon class="main-icon" style="font-size: 3rem !important">
-                {{ isFullScreen ? 'fullscreen_exit' : 'fullscreen' }}
-            </ellipso-icon>
+        <button
+            ellipso-icon-button
+            (click)="onSelectDrawType('eraser')"
+            [class.selected]="drawType === 'eraser'">
+            <ellipso-icon> ink_eraser </ellipso-icon>
         </button>
     </div>
-    <div class="full-height">
-
-        <app-draggable-viewport />
+    -->
+    <div class="smarttable-canvas full-height">
+        <app-draggable-viewport
+            [drawType]="drawType"
+            [items]="testobjects"
+            [isPanAndZoomEnabled]="isPanAndZoomEnabled" />
     </div>
-
 </div>

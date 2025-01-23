@@ -1,24 +1,45 @@
-import {Component, HostListener} from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {ContextMenuComponent} from "./core/components/context-menu/context-menu.component";
-import {NgForOf, NgStyle} from "@angular/common";
-import {bufferTime} from "rxjs";
-import {EllipsoButtonComponent, EllipsoIconComponent} from "ellipso-ui-components";
-import {ItemObjectComponent} from "./core/components/item-object/item-object.component";
-import {DraggableViewportComponent} from "./core/components/draggable-viewport/draggable-viewport.component";
+import { ContextMenuComponent } from './core/components/context-menu/context-menu.component';
+import { NgForOf, NgIf, NgStyle } from '@angular/common';
+import { bufferTime } from 'rxjs';
+import {
+    EllipsoButtonComponent,
+    EllipsoIconComponent,
+    EllipsoToggleButtonComponent,
+    EllipsoToggleButtonGroupComponent,
+} from 'ellipso-ui-components';
+import { ItemObjectComponent } from './core/components/item-object/item-object.component';
+import { DraggableViewportComponent } from './core/components/draggable-viewport/draggable-viewport.component';
+import { CircleMenuComponent } from './core/components/circle-menu/circle-menu.component';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, ContextMenuComponent, NgForOf, EllipsoIconComponent, EllipsoButtonComponent, NgStyle, ItemObjectComponent, DraggableViewportComponent],
+    imports: [
+        EllipsoIconComponent,
+        EllipsoButtonComponent,
+        NgStyle,
+        DraggableViewportComponent,
+        NgIf,
+        EllipsoToggleButtonComponent,
+        EllipsoToggleButtonGroupComponent,
+        CircleMenuComponent,
+    ],
     templateUrl: './app.component.html',
-    styleUrl: './app.component.css'
+    styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     title = 'smarttable-collaboration';
 
-    rotation = 0;
+    drawType = 'pen';
 
-    testobjects: any[] = [
+    rotation = 0;
+    menu: string = 'start';
+
+    history: any[] = [];
+
+    testobjects: any[] = [];
+    /*
         {
             name: 'Test1',
             type: 'Table',
@@ -26,30 +47,63 @@ export class AppComponent {
             y: 100,
             width: 100,
             height: 100,
-            color: 'red',
-            rotation: 40,
-            image: 'https://placehold.co/60x100'
-        }
-    ]
+            color: '#ff0000',
+            rotation: 0,
+            image: '/objects/table.svg',
+            isSelected: false,
+            isDragged: false,
+        },
+        {
+            name: 'Test1',
+            type: 'Table',
+            x: 500,
+            y: 100,
+            width: 100,
+            height: 100,
+            color: '#ff0000',
+            rotation: 0,
+            image: '/objects/microphone.svg',
+            isSelected: false,
+            isDragged: false,
+        },
+     */
 
-    menues: any[] = [
-    ]
+    ngOnInit() {
+        this.addToHistory(this.testobjects);
 
-    onClickTable($event: MouseEvent) {
-        if($event.target !== $event.currentTarget) {
-            return;
-        }
-        let positionX = $event.clientX;
-        let positionY = $event.clientY;
-
-        this.menues.push({
-            id: this.menues.length.toString(),
-            x: positionX,
-            y: positionY
-        })
+        setInterval(() => {
+            this.addToHistory(this.testobjects);
+        }, 1000);
     }
 
-    protected readonly bufferTime = bufferTime;
+    addToHistory(item: any) {
+        if (
+            this.history.length > 0 &&
+            JSON.stringify(this.history[this.history.length - 1]) === JSON.stringify(item)
+        ) {
+            return;
+        }
+
+        this.history.push(JSON.parse(JSON.stringify(item)));
+
+        if (this.history.length > 500) {
+            this.history.shift();
+        }
+        console.log('History', this.history.length);
+    }
+
+    onUndo() {
+        if (this.history.length > 1) {
+            this.history.pop();
+            this.testobjects = this.history[this.history.length - 1];
+        }
+    }
+
+    onRedo() {
+        if (this.history.length > 1) {
+            this.testobjects = this.history.pop();
+        }
+    }
 
     onRotateScreen() {
         this.rotation = (this.rotation + 180) % 360;
@@ -59,8 +113,7 @@ export class AppComponent {
     onToggleFullScreen() {
         if (!this.isFullScreen) {
             document.documentElement.requestFullscreen();
-        }
-        else {
+        } else {
             document.exitFullscreen();
         }
         this.isFullScreen = !this.isFullScreen;
@@ -69,5 +122,15 @@ export class AppComponent {
     @HostListener('document:fullscreenchange', ['$event'])
     onFullScreenChange(event: any) {
         this.isFullScreen = document.fullscreenElement !== null;
+    }
+
+    isPanAndZoomEnabled = false;
+
+    onTogglePanAndZoom() {
+        this.isPanAndZoomEnabled = !this.isPanAndZoomEnabled;
+    }
+
+    onSelectDrawType(type: string) {
+        this.drawType = type;
     }
 }

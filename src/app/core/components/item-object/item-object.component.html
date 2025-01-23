@@ -1,3 +1,67 @@
-<div class="table-object">
-    <img [src]="object.image" class="object-image"  [alt]="object.type"/>
+<div class="context-container">
+    <div
+        class="rotate-container"
+        [ngStyle]="{
+            transform: 'rotate(' + item.rotation + 'deg)',
+        }">
+        <div
+            class="table-object-container"
+            [class.selected]="item.isSelected">
+            <div
+                #itemObject
+                [ngStyle]="{
+                    width: item.width + 'px',
+                    height: item.height + 'px',
+                    '--tint-color': color.toRGB(),
+                    '--url': 'url(' + item.image + ')',
+                }"
+                class="table-object"
+                (click)="onSelectItem()"
+                (touchstart)="hold.emit($event)"
+                (touchmove)="move.emit($event)"
+                (touchend)="release.emit($event)">
+                <img
+                    #objectImage
+                    [src]="item.image"
+                    class="object-image"
+                    [alt]="item.type" />
+            </div>
+            <div
+                class="resize-handles"
+                *ngIf="item.isSelected">
+                <div
+                    *ngFor="let handle of ['nw', 'ne', 'sw', 'se']"
+                    class="resize-handle"
+                    (pointerdown)="onResizeStart($event, handle)"
+                    (pointermove)="onResizeMove($event, handle)"
+                    (pointerup)="onResizeEnd($event)"
+                    [hidden]="item.isDragged">
+                    <div class="handle"></div>
+                </div>
+            </div>
+        </div>
+        <div
+            class="rotate-handle"
+            [hidden]="item.isDragged"
+            *ngIf="item.isSelected"
+            (pointerdown)="onRotateStart($event)"
+            (pointermove)="onRotateMove($event)"
+            (pointerup)="onRotateEnd($event)">
+            <ellipso-icon>change_circle</ellipso-icon>
+        </div>
+    </div>
+    <app-item-context-menu
+        [hidden]="item.isDragged"
+        *ngIf="item.isSelected"
+        (colorChanged)="onColorChange($event)"
+        (closed)="onUnselectItem()"
+        (delete)="onDeleteItem()"
+        (duplicate)="this.duplicate.emit()"
+        [ngStyle]="{
+            position: 'absolute',
+            left: '50%',
+            bottom: 'calc(100% + 10px)',
+            transform: 'translateX(-50%)',
+        }"
+        [item]="item"></app-item-context-menu>
 </div>
