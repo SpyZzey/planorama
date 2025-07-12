@@ -1,8 +1,27 @@
 <div class="canvas-container">
+    <div
+        class="canvas-menu"
+        *ngIf="showMenu"
+        [ngStyle]="{
+            top: menuPosition.y + 'px',
+            left: menuPosition.x + 'px',
+        }">
+        <button
+            ellipso-icon-button
+            (click)="toggleLock()">
+            <ellipso-icon *ngIf="locked"> lock </ellipso-icon>
+            <ellipso-icon *ngIf="!locked"> lock_open </ellipso-icon>
+        </button>
+        <button
+            ellipso-icon-button
+            (click)="clearCanvas(); onHideMenu()">
+            <ellipso-icon> close </ellipso-icon>
+        </button>
+    </div>
     <canvas
         #canvas
         width="2002"
-        height="2002"
+        [attr.height]="size === 'large' ? 2002 : 1002"
         (pointerdown)="startDrawing($event)"
         (pointermove)="draw($event)"
         (pointerup)="stopDrawing()"

@@ -50,6 +50,29 @@
             <ellipso-icon>change_circle</ellipso-icon>
         </div>
     </div>
+    <div
+        class="item-locked-signifier"
+        *ngIf="item.isLocked">
+        <ellipso-icon>lock</ellipso-icon>
+    </div>
+    <div
+        class="item-note-signifier"
+        (click)="onShowNote()"
+        *ngIf="item.drawing">
+        <ellipso-icon>sticky_note_2</ellipso-icon>
+    </div>
+    <div
+        class="item-note-display"
+        *ngIf="showNote">
+        <button
+            ellipso-icon-button
+            (click)="onHideNote()">
+            <ellipso-icon>close</ellipso-icon>
+        </button>
+        <app-draw-notes
+            [hideTools]="true"
+            [drawing]="item.drawing" />
+    </div>
     <app-item-context-menu
         [hidden]="item.isDragged"
         *ngIf="item.isSelected"

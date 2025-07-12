@@ -1,53 +1,139 @@
 <div
-    class="start-menu"
-    *ngIf="menu === 'start'">
-    <div class="menu-card">
-        <h2>Welcome!</h2>
-        <div class="menu-list">
-            <div
-                class="menu-item"
-                (click)="menu = 'import-room'">
-                <ellipso-icon>download</ellipso-icon>
-                Import Room
-            </div>
-            <div class="menu-item">
-                <ellipso-icon>description</ellipso-icon>
-                ToDos & Notes
-            </div>
-            <div class="menu-item">
-                <ellipso-icon>chair</ellipso-icon>
-                List of Objects
-            </div>
-            <div class="menu-item">
-                <ellipso-icon>group</ellipso-icon>
-                List of Members
-            </div>
-        </div>
-    </div>
-</div>
-<div
-    class="import-room-menu start-menu"
-    *ngIf="menu === 'import-room'">
-    <div class="menu-card">
-        <h2>Import a Room!</h2>
-        <div class="menu-list">
-            <div
-                class="menu-item import-room-menu-item"
-                (click)="menu = 'smarttable'">
-                <img
-                    class="img"
-                    src="/Roomplan.png" />
-            </div>
-        </div>
-    </div>
-</div>
-
-<div
-    *ngIf="menu === 'smarttable'"
     class="smarttable"
     [ngStyle]="{
         transform: 'rotate(' + rotation + 'deg)',
+        zoom: zoom * 100 + '%',
     }">
+    <div
+        class="smarttable-expand-menu"
+        [class.active]="menu !== 'smarttable'">
+        <button
+            ellipso-icon-button
+            class="expand-menu-back-button"
+            (click)="menu = 'start'"
+            *ngIf="menu !== 'start' && menu !== 'smarttable'">
+            <ellipso-icon>arrow_back</ellipso-icon>
+        </button>
+        <button
+            ellipso-icon-button
+            *ngIf="menu === 'smarttable'"
+            (click)="menu = 'start'; step = 'edit'">
+            <ellipso-icon>menu</ellipso-icon>
+        </button>
+        <ng-container *ngIf="step === 'edit' && menu !== 'smarttable'">
+            <button
+                ellipso-icon-button
+                type="button"
+                (click)="onRemoveZoom()"
+                title="Less Zoom">
+                <ellipso-icon> remove </ellipso-icon>
+            </button>
+            <button
+                ellipso-icon-button
+                type="button"
+                (click)="onAddZoom()"
+                title="More Zoom">
+                <ellipso-icon> add </ellipso-icon>
+            </button>
+            <button
+                ellipso-icon-button
+                type="button"
+                (click)="onRotateScreen()"
+                title="Rotate Screen 180°">
+                <ellipso-icon> screen_rotation </ellipso-icon>
+            </button>
+            <button
+                ellipso-icon-button
+                type="button"
+                (click)="onToggleFullScreen()"
+                title="Fullscreen Mode">
+                <ellipso-icon>
+                    {{ isFullScreen ? 'fullscreen_exit' : 'fullscreen' }}
+                </ellipso-icon>
+            </button>
+            <button
+                ellipso-icon-button
+                (click)="onTogglePanAndZoom()"
+                title="Toggle Pan and Zoom">
+                <div
+                    class="button-crossed-out"
+                    *ngIf="!isPanAndZoomEnabled"></div>
+                <ellipso-icon> drag_pan </ellipso-icon>
+            </button>
+        </ng-container>
+        <button
+            ellipso-icon-button
+            class="expand-menu-close-button"
+            *ngIf="step !== 'start'"
+            (click)="menu = 'smarttable'">
+            <ellipso-icon>close</ellipso-icon>
+        </button>
+        <div
+            class="start-menu"
+            *ngIf="menu === 'start'">
+            <div class="menu-card">
+                <h2>Welcome!</h2>
+                <div class="menu-list">
+                    <div
+                        class="menu-item"
+                        tabindex="0"
+                        (click)="menu = 'import-room'">
+                        <ellipso-icon>download</ellipso-icon>
+                        Import Room
+                    </div>
+                    <div
+                        class="menu-item"
+                        (click)="menu = 'import-room'">
+                        <ellipso-icon>upload</ellipso-icon>
+                        Export Room
+                    </div>
+                    <div class="menu-item">
+                        <ellipso-icon>description</ellipso-icon>
+                        Instructions & Notes
+                    </div>
+                    <div class="menu-item">
+                        <ellipso-icon>chair</ellipso-icon>
+                        List of Objects
+                    </div>
+                    <div class="menu-item">
+                        <ellipso-icon>group</ellipso-icon>
+                        List of Members
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            class="import-room-menu start-menu"
+            *ngIf="menu === 'loading'">
+            <div class="loading-screen">
+                <ellipso-icon>hourglass_empty</ellipso-icon>
+                Loading Room...
+            </div>
+        </div>
+        <div
+            class="import-room-menu start-menu"
+            *ngIf="menu === 'import-room'">
+            <div class="menu-card">
+                <h2>Import a Room!</h2>
+                <div class="menu-list">
+                    <div
+                        class="menu-item import-room-menu-item"
+                        (click)="loadTable()">
+                        <img
+                            class="img"
+                            src="/Roomplan.png" />
+                    </div>
+                </div>
+                <button
+                    style="width: 100%; margin-top: 8px"
+                    ellipso-ghost-button>
+                    Browse Files
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!--
     <div class="smarttable-toolbar">
         <div class="flex-row">
             <button
@@ -61,83 +147,52 @@
                 </ellipso-icon>
                 <div class="button-icons">
                     <ellipso-icon> chair_alt </ellipso-icon>
-                    <!-- <ellipso-icon> table_bar </ellipso-icon> -->
-                </div>
-            </button>
-            <button
-                ellipso-ghost-button
-                type="button"
-                title="Export">
-                <ellipso-icon
-                    class="main-icon"
-                    style="color: purple">
-                    upload
-                </ellipso-icon>
-            </button>
-            <button
-                ellipso-ghost-button
-                type="button"
-                (click)="onRotateScreen()"
-                title="Rotate Screen 180°">
-                <ellipso-icon
-                    class="main-icon"
-                    style="font-size: 3rem !important">
-                    screen_rotation
-                </ellipso-icon>
-            </button>
-        </div>
-        <div class="flex-row">
-            <button
-                ellipso-ghost-button
-                type="button"
-                (click)="onUndo()"
-                title="Undo">
-                <ellipso-icon
-                    class="main-icon"
-                    style="font-size: 3rem !important">
-                    undo
-                </ellipso-icon>
-            </button>
-            <button
-                ellipso-ghost-button
-                type="button"
-                (click)="onRedo()"
-                title="Redo">
-                <ellipso-icon
-                    class="main-icon"
-                    style="font-size: 3rem !important">
-                    redo
-                </ellipso-icon>
-            </button>
-            <button
-                ellipso-ghost-button
-                type="button"
-                (click)="onToggleFullScreen()"
-                title="Rotate Screen 180°">
-                <ellipso-icon
-                    class="main-icon"
-                    style="font-size: 3rem !important">
-                    {{ isFullScreen ? 'fullscreen_exit' : 'fullscreen' }}
-                </ellipso-icon>
-            </button>
-            <button
-                ellipso-ghost-button
-                type="button"
-                (click)="onTogglePanAndZoom()"
-                title="Rotate Screen 180°">
-                <div
-                    class="button-crossed-out"
-                    *ngIf="!isPanAndZoomEnabled"></div>
-                <ellipso-icon
-                    class="main-icon"
-                    style="font-size: 3rem !important">
-                    drag_pan
-                </ellipso-icon>
-            </button>
-        </div>
-    </div>
+                    <ellipso-icon> table_bar </ellipso-icon>
+</div>
+</button>
+<button
+    ellipso-ghost-button
+    type="button"
+    title="Export">
+    <ellipso-icon
+        class="main-icon"
+        style="color: purple">
+        upload
+    </ellipso-icon>
+</button>
+<button
+    ellipso-ghost-button
+    type="button"
+    (click)="onRotateScreen()"
+    title="Rotate Screen 180°">
+    <ellipso-icon
+        class="main-icon"
+        style="font-size: 3rem !important">
+        screen_rotation
+    </ellipso-icon>
+</button>
+<button
+    ellipso-ghost-button
+    type="button"
+    (click)="onToggleFullScreen()"
+    title="Fullscreen Mode">
+    <ellipso-icon
+        class="main-icon"
+        style="font-size: 3rem !important">
+        {{ isFullScreen ? 'fullscreen_exit' : 'fullscreen' }}
+    </ellipso-icon>
+</button>
+</div>
+</div>
+    -->
     <!--
     <div class="fixed-pen-selection">
+        <button
+            ellipso-icon-button
+            (click)="onSelectDrawType('lasso')"
+            [class.selected]="drawType === 'lasso'">
+            <ellipso-icon> lasso_select </ellipso-icon>
+        </button>
         <button
             ellipso-icon-button
             (click)="onSelectDrawType('pen')"

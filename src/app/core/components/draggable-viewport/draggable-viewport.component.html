@@ -12,12 +12,18 @@
         [ngStyle]="{
             transform: 'translate(' + offsetX + 'px, ' + offsetY + 'px) scale(' + scale + ')',
         }">
-        <!-- <app-draw-canvas [drawType]="drawType" /> -->
+        <app-draw-canvas
+            *ngIf="showDrawCanvas"
+            (lock)="setLocked($event)"
+            [drawType]="drawType" />
         <app-context-menu
             *ngFor="let contextMenu of menues; let i = index"
             (closed)="this.removeContextMenu(i)"
             (addItem)="this.onAddItem($event)"
+            (showDrawCanvas)="showDrawCanvas = true"
             [menu]="contextMenu"
+            [allItems]="this.items"
+            [class.rotated]="contextMenu.y < windowHeight / 2"
             [ngStyle]="{
                 position: 'absolute',
                 'top.px': contextMenu.y,
@@ -37,6 +43,7 @@
                 left: item.x + 'px',
                 top: item.y + 'px',
             }"
+            [class.rotated]="item.y < windowHeight / 2"
             (hold)="onTouchStart($event, i)"
             (move)="onTouchMove($event, i)"
             (release)="onTouchEnd($event, i)" />

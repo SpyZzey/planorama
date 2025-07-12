@@ -1,12 +1,17 @@
-<div class="canvas-container">
+<div
+    class="canvas-container"
+    [class.small]="size === 'small'">
     <canvas
         #canvas
         width="190"
+        [attr.height]="size === 'small' ? 100 : 200"
         (pointerdown)="startDrawing($event)"
         (pointermove)="draw($event)"
         (pointerup)="stopDrawing()"
         (pointerleave)="stopDrawing()"></canvas>
-    <div class="controls">
+    <div
+        class="controls"
+        *ngIf="!hideTools">
         <button
             ellipso-icon-button
             (click)="setToDrawMode()">

@@ -1,9 +1,10 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
 import { EllipsoButtonComponent, EllipsoIconComponent } from 'ellipso-ui-components';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-draw-notes',
-    imports: [EllipsoButtonComponent, EllipsoIconComponent],
+    imports: [EllipsoButtonComponent, EllipsoIconComponent, NgIf],
     templateUrl: './draw-notes.component.html',
     styleUrl: './draw-notes.component.css',
 })
@@ -11,6 +12,7 @@ export class DrawNotesComponent implements OnChanges {
     @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
 
     @Input() drawing: string | undefined | null;
+    @Input() size!: string;
     private ctx!: CanvasRenderingContext2D;
     private isDrawing = false;
     private lastX = 0;
@@ -96,6 +98,7 @@ export class DrawNotesComponent implements OnChanges {
     }
 
     // Clear the canvas
+    @Input() hideTools!: boolean;
     clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
     }

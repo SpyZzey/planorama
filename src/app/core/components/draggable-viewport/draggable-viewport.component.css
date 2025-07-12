@@ -20,3 +20,7 @@
     position: absolute;
     cursor: grab;
 }
+
+.rotated {
+    transform: rotate(180deg);
+}

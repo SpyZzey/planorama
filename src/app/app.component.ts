@@ -6,6 +6,7 @@ import { bufferTime } from 'rxjs';
 import {
     EllipsoButtonComponent,
     EllipsoIconComponent,
+    EllipsoLoadingSpinnerComponent,
     EllipsoToggleButtonComponent,
     EllipsoToggleButtonGroupComponent,
 } from 'ellipso-ui-components';
@@ -24,6 +25,7 @@ import { CircleMenuComponent } from './core/components/circle-menu/circle-menu.c
         EllipsoToggleButtonComponent,
         EllipsoToggleButtonGroupComponent,
         CircleMenuComponent,
+        EllipsoLoadingSpinnerComponent,
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
@@ -31,7 +33,8 @@ import { CircleMenuComponent } from './core/components/circle-menu/circle-menu.c
 export class AppComponent implements OnInit {
     title = 'smarttable-collaboration';
 
-    drawType = 'pen';
+    drawType = 'lasso';
+    step = 'start';
 
     rotation = 0;
     menu: string = 'start';
@@ -72,6 +75,9 @@ export class AppComponent implements OnInit {
         this.addToHistory(this.testobjects);
 
         setInterval(() => {
+            if (!this.isFullScreen) {
+                document.documentElement.requestFullscreen();
+            }
             this.addToHistory(this.testobjects);
         }, 1000);
     }
@@ -132,5 +138,20 @@ export class AppComponent implements OnInit {
 
     onSelectDrawType(type: string) {
         this.drawType = type;
+    }
+    zoom = 1;
+    onRemoveZoom() {
+        this.zoom -= 0.1;
+    }
+
+    onAddZoom() {
+        this.zoom += 0.1;
+    }
+
+    loadTable() {
+        this.menu = 'loading';
+        setTimeout(() => {
+            this.menu = 'smarttable';
+        }, 1000);
     }
 }

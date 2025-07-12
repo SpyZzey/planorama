@@ -174,3 +174,69 @@ button {
         }
     }
 }
+
+.smarttable-expand-menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 100%;
+    width: 60px;
+    height: 60px;
+    z-index: 3;
+    padding: 4px;
+    display: flex;
+    justify-content: end;
+
+    background-color: var(--primary);
+    color: var(--text-on-primary);
+    transition:
+        width 0.3s,
+        height 0.3s,
+        border-radius 0.3s;
+}
+.smarttable-expand-menu.active {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    .expand-menu-close-button {
+        display: block !important;
+    }
+    .expand-menu-open-button {
+        display: none !important;
+    }
+}
+.expand-menu-close-button {
+    display: none !important;
+    width: 60px;
+    height: 60px;
+    z-index: 3;
+    padding: 12px;
+}
+
+.expand-menu-open-button {
+    width: 60px;
+    height: 60px;
+    z-index: 3;
+    padding: 12px;
+}
+
+.expand-menu-back-button {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 60px;
+    height: 60px;
+    z-index: 3;
+    padding: 12px;
+}
+.loading-screen {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-direction: column;
+    font-size: 1.5rem;
+
+    > ellipso-icon {
+        font-size: 2.8rem;
+    }
+}

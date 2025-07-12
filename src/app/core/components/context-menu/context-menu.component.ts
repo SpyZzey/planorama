@@ -1,18 +1,34 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgIf, NgStyle } from '@angular/common';
-import { EllipsoButtonComponent, EllipsoIconComponent } from 'ellipso-ui-components';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { NgForOf, NgIf, NgStyle } from '@angular/common';
+import {
+    EllipsoAvatarComponent,
+    EllipsoButtonComponent,
+    EllipsoCheckboxComponent,
+    EllipsoIconComponent,
+} from 'ellipso-ui-components';
 import { CircleMenuComponent } from '../circle-menu/circle-menu.component';
 
 @Component({
     selector: 'app-context-menu',
-    imports: [NgStyle, EllipsoIconComponent, EllipsoButtonComponent, NgIf, CircleMenuComponent],
+    imports: [
+        NgStyle,
+        EllipsoIconComponent,
+        EllipsoButtonComponent,
+        NgIf,
+        CircleMenuComponent,
+        EllipsoCheckboxComponent,
+        EllipsoAvatarComponent,
+        NgForOf,
+    ],
     templateUrl: './context-menu.component.html',
     styleUrl: './context-menu.component.css',
 })
-export class ContextMenuComponent {
+export class ContextMenuComponent implements OnChanges, AfterViewInit {
     @Input() menu: any;
     @Output() closed = new EventEmitter<any>();
     @Output() addItem = new EventEmitter<any>();
+    @Output() showDrawCanvas = new EventEmitter<any>();
+    @Input() allItems: any[] = [];
 
     isSubSectionSelected = false;
     innerMenuSections = [
@@ -27,14 +43,24 @@ export class ContextMenuComponent {
             image: '/objects/picture.svg',
         },
         {
-            title: 'Beer',
-            visible: true,
-            image: '/objects/beer.svg',
-        },
-        {
             title: 'Disco',
             visible: true,
             image: '/objects/disco-ball.svg',
+        },
+        {
+            title: 'Tables',
+            visible: true,
+            image: '/objects/table.svg',
+        },
+        {
+            title: 'Room Divider',
+            visible: true,
+            image: '/objects/roomdivider.svg',
+        },
+        {
+            title: 'Rack',
+            visible: true,
+            image: '/objects/rack.svg',
         },
     ];
     outerMenuSections = [
@@ -48,7 +74,7 @@ export class ContextMenuComponent {
             title: 'Table',
             visibleAt: 0,
             visible: false,
-            image: '/objects/table.svg',
+            image: '/objects/stool.svg',
         },
         {
             title: 'Picture',
@@ -86,10 +112,51 @@ export class ContextMenuComponent {
             visible: false,
             image: '/objects/disco-ball.svg',
         },
+        {
+            title: 'Microphone',
+            visibleAt: 3,
+            visible: false,
+            image: '/objects/microphone.svg',
+        },
+        {
+            title: 'DiscoBall',
+            visibleAt: 3,
+            visible: false,
+            image: '/objects/disco-ball.svg',
+        },
+        {
+            title: 'Microphone',
+            visibleAt: 3,
+            visible: false,
+            image: '/objects/microphone.svg',
+        },
+        {
+            title: 'DiscoBall',
+            visibleAt: 3,
+            visible: false,
+            image: '/objects/disco-ball.svg',
+        },
     ];
 
-    submenu = 'main';
+    submenu: string = 'main';
+    tTasks: any[] = [];
 
+    ngAfterViewInit() {
+        this.updateTasks();
+    }
+
+    ngOnChanges() {
+        this.updateTasks();
+    }
+
+    updateTasks() {
+        this.tTasks = [];
+        this.allItems.forEach((item) => {
+            this.tTasks.push(...item.tTasks);
+        });
+        console.log(this.tTasks);
+        console.log(this.allItems);
+    }
     closeMenu($event?: any) {
         $event?.stopPropagation();
         $event?.preventDefault();
@@ -113,4 +180,11 @@ export class ContextMenuComponent {
         });
         this.closeMenu();
     }
+
+    onShowDrawCanvas() {
+        this.showDrawCanvas.emit();
+        this.closeMenu();
+    }
+
+    removeTask(task: any) {}
 }

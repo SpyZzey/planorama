@@ -8,10 +8,10 @@
             [sections]="outerMenuSections"
             (sectionSelected)="selectItem($event)"
             [numberOfSections]="4"
-            [size]="320"
-            [centerX]="160"
-            [centerY]="160"
-            [innerRadius]="80"
+            [size]="360"
+            [centerX]="180"
+            [centerY]="180"
+            [innerRadius]="90"
             [outerRadius]="158"></app-circle-menu>
     </div>
     <div style="position: absolute; left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%)">
@@ -19,15 +19,15 @@
             [sections]="innerMenuSections"
             (sectionSelected)="selectSection($event)"
             [numberOfSections]="4"
-            [size]="160"
-            [centerX]="80"
-            [centerY]="80"
+            [size]="180"
+            [centerX]="90"
+            [centerY]="90"
             [innerRadius]="20"
-            [outerRadius]="78"></app-circle-menu>
+            [outerRadius]="88"></app-circle-menu>
     </div>
     <div style="position: absolute; left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%)">
         <button
-            (click)="closeMenu($event)"
+            (click)="selectSubmenu('main')"
             ellipso-icon-button
             style="
                 background: white;
@@ -39,12 +39,59 @@
                 width: 40px;
                 height: 40px;
             ">
+            <ellipso-icon>arrow_back</ellipso-icon>
+        </button>
+    </div>
+</div>
+<div
+    class="context-menu-container"
+    [class.rotated]="menu.x < 600"
+    *ngIf="submenu === 'tasks-list'">
+    <div class="tasks-list submenu">
+        <h3>Tasks</h3>
+        <div
+            class="task-list--item"
+            *ngFor="let task of tTasks">
+            <div class="responsibilities">
+                <ellipso-avatar
+                    size="xsmall"
+                    *ngFor="let responsibility of task.responsibility"
+                    [avatarUrl]="responsibility.image" />
+            </div>
+            <div class="img-container">
+                <img
+                    [src]="task.image"
+                    alt="Checkmark" />
+            </div>
+            <div class="actions-container">
+                <button
+                    ellipso-icon-button
+                    (click)="removeTask(task)">
+                    <ellipso-icon class="error">delete</ellipso-icon>
+                </button>
+            </div>
+        </div>
+        <button
+            style="position: absolute"
+            class="back-button"
+            ellipso-icon-button
+            (click)="selectSubmenu('main')"
+            title="Back">
+            <ellipso-icon>arrow_back</ellipso-icon>
+        </button>
+        <button
+            style="position: absolute"
+            class="close-button"
+            ellipso-icon-button
+            (click)="closed.emit()"
+            title="Close Menu">
             <ellipso-icon>close</ellipso-icon>
         </button>
     </div>
 </div>
 <div
     class="context-menu-container"
+    [class.rotated]="menu.x < 600"
     *ngIf="submenu === 'main'">
     <div
         class="menu-list"
@@ -55,14 +102,23 @@
             <ellipso-icon>add</ellipso-icon>
             Add Object
         </div>
-        <div class="menu-element menu-item">
-            <ellipso-icon>note_add</ellipso-icon>
-            Add Note
+        <div class="menu-element menu-item-group task-menu-item">
+            <div
+                class="menu-item"
+                (click)="onShowDrawCanvas()">
+                <ellipso-icon>lock</ellipso-icon>
+                Lock Items
+            </div>
         </div>
-        <div class="menu-element menu-item">
-            <ellipso-icon>group</ellipso-icon>
-            Add Responsibility
+        <div class="menu-element menu-item-group task-menu-item">
+            <div
+                class="menu-item"
+                (click)="selectSubmenu('tasks-list')">
+                <ellipso-icon>assignment</ellipso-icon>
+                List Tasks
+            </div>
         </div>
+
         <!--
         <div class="menu-element menu-item-group">
             <div class="menu-item">

@@ -10,11 +10,20 @@ import {
 } from '@angular/core';
 import { NgForOf, NgIf, NgStyle } from '@angular/common';
 import { ItemContextMenuComponent } from '../item-context-menu/item-context-menu.component';
-import { Color, EllipsoIconComponent } from 'ellipso-ui-components';
+import { Color, EllipsoButtonComponent, EllipsoIconComponent } from 'ellipso-ui-components';
+import { DrawNotesComponent } from '../draw-notes/draw-notes.component';
 
 @Component({
     selector: 'app-item-object',
-    imports: [NgIf, ItemContextMenuComponent, NgStyle, EllipsoIconComponent, NgForOf],
+    imports: [
+        NgIf,
+        ItemContextMenuComponent,
+        NgStyle,
+        EllipsoIconComponent,
+        NgForOf,
+        DrawNotesComponent,
+        EllipsoButtonComponent,
+    ],
     templateUrl: './item-object.component.html',
     styleUrl: './item-object.component.css',
 })
@@ -228,5 +237,13 @@ export class ItemObjectComponent implements AfterViewInit, OnChanges {
 
     onDeleteItem() {
         this.delete.emit(this.item);
+    }
+
+    showNote = false;
+    onShowNote() {
+        this.showNote = true;
+    }
+    onHideNote() {
+        this.showNote = false;
     }
 }

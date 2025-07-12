@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, ViewChild } from '@angular/core';
-import { NgForOf, NgStyle } from '@angular/common';
+import { NgForOf, NgIf, NgStyle } from '@angular/common';
 import { ItemObjectComponent } from '../item-object/item-object.component';
 import { ContextMenuComponent } from '../context-menu/context-menu.component';
 import { Point } from '@angular/cdk/drag-drop';
@@ -7,7 +7,7 @@ import { DrawCanvasComponent } from '../draw-canvas/draw-canvas.component';
 
 @Component({
     selector: 'app-draggable-viewport',
-    imports: [NgStyle, NgForOf, ItemObjectComponent, ContextMenuComponent, DrawCanvasComponent],
+    imports: [NgStyle, NgForOf, ItemObjectComponent, ContextMenuComponent, DrawCanvasComponent, NgIf],
     templateUrl: './draggable-viewport.component.html',
     styleUrl: './draggable-viewport.component.css',
 })
@@ -34,6 +34,39 @@ export class DraggableViewportComponent {
     contextMenuOpenDelay = 500;
     holdPointers: any[] = [];
 
+    windowHeight = window.innerHeight;
+    showDrawCanvas = false;
+
+    ngOnInit() {
+        this.onAddItem({
+            item: {
+                title: 'Table',
+                image: '/objects/table.svg',
+            },
+            menu: {
+                x: 100,
+                y: 500,
+            },
+            tTasks: [
+                {
+                    image: '/tasks/task1.png',
+                    responsibility: [
+                        {
+                            id: 1,
+                            name: 'John Doe',
+                            image: '/avatars/avatar1.png',
+                        },
+                        {
+                            id: 2,
+                            name: 'Jane Doe',
+                            image: '/avatars/avatar2.png',
+                        },
+                    ],
+                },
+            ],
+        });
+    }
+
     onAddItem($event: any) {
         this.items.push({
             name: $event.item.title,
@@ -47,6 +80,7 @@ export class DraggableViewportComponent {
             image: $event.item.image,
             isSelected: false,
             isDragged: false,
+            tTasks: $event.tTasks ?? [],
         });
     }
     onPanStart(event: PointerEvent) {
@@ -293,6 +327,42 @@ export class DraggableViewportComponent {
             ...newItem,
             x: newItem.x + 10,
             y: newItem.y + 10,
+        });
+    }
+
+    setLocked($event: any) {
+        console.log($event);
+        const locked = $event.locked;
+        const boundingBox = $event.boundingBox;
+
+        this.items.forEach((item) => {
+            // Extract item properties
+            const itemLeft = item.x;
+            const itemRight = item.x + item.width;
+            const itemTop = item.y;
+            const itemBottom = item.y + item.height;
+
+            // Extract bounding box properties
+            const boxLeft = boundingBox.lowestX.x;
+            const boxRight = boundingBox.highestX.x;
+            const boxBottom = boundingBox.highestY.y;
+            const boxTop = boundingBox.lowestY.y;
+
+            console.log('itemLeft', itemLeft);
+            console.log('itemRight', itemRight);
+            console.log('itemTop', itemTop);
+            console.log('itemBottom', itemBottom);
+            console.log('boxLeft', boxLeft);
+            console.log('boxRight', boxRight);
+            console.log('boxTop', boxTop);
+            console.log('boxBottom', boxBottom);
+
+            // Check if the item is within the bounding box
+            const isWithinBoundingBox =
+                itemLeft >= boxLeft && itemRight <= boxRight && itemTop >= boxTop && itemBottom <= boxBottom;
+
+            // Update the isSelected property
+            if (isWithinBoundingBox) item.isLocked = locked;
         });
     }
 }

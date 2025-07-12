@@ -1,5 +1,5 @@
 .context-menu-container {
-    width: 200px;
+    min-width: 200px;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.05);
     background: white;
     border-radius: 12px;
@@ -9,12 +9,17 @@
 }
 .close-item-selection-button {
 }
+.context-menu-container > .back-button {
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+}
 .context-menu-container > .close-button {
     top: 0;
     right: 0;
     transform: translate(50%, -50%);
 }
-.context-menu-container > button {
+.context-menu-container button {
     position: absolute;
     background: white;
     cursor: pointer;
@@ -31,7 +36,13 @@
     justify-content: start;
     padding: 0 4px;
 }
-
+.tasks-list {
+    padding: 8px 16px;
+}
+.tasks-list > h3 {
+    margin: 0;
+    text-align: center;
+}
 .menu-list {
     display: flex;
     flex-direction: column;
@@ -41,6 +52,18 @@
 .menu-item-group {
     display: flex;
     flex-direction: row;
+}
+.task-menu-item {
+    > .menu-item:nth-child(1) {
+        flex: 1;
+        display: flex;
+        justify-content: start;
+    }
+    > .menu-item:nth-child(2) {
+        flex: 0 0 50px;
+        text-align: center;
+        border-left: 1px dashed var(--border);
+    }
 }
 .menu-item-group > .menu-item {
     flex: 1;
@@ -87,4 +110,58 @@
     flex: 1;
     height: 48px;
     text-align: center;
+}
+
+.context-menu-container .close-button {
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+}
+.context-menu-container .back-button {
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+.tasks-list {
+    padding: 8px 16px;
+    min-width: 300px;
+    width: 300px;
+}
+.task-list--item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 60px;
+    > .img-container {
+        flex: 1;
+        max-width: 100%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > img {
+            width: 100%;
+            height: auto;
+        }
+    }
+    > .actions-container {
+        flex: 0 0 32px;
+        width: 32px !important;
+        max-width: 32px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > button {
+            min-width: 32px !important;
+            flex: 0 0 32px;
+            width: 32px !important;
+            max-width: 32px !important;
+        }
+    }
+    > .responsibilities {
+        margin-right: 8px;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
 }

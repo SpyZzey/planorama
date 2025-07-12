@@ -3,25 +3,38 @@
         class="menu-list"
         *ngIf="submenu == 'main'">
         <div
-            class="add-note menu-item"
+            class="add-note menu-item menu-element"
             (click)="changeSubmenu('add-note')">
             <ellipso-icon> {{ item.drawing ? 'edit_document' : 'note_add' }}</ellipso-icon>
-            {{ item.drawing ? 'Edit' : 'Add' }} Note
+            {{ item.drawing ? 'Edit' : 'Add' }} Instructions
+        </div>
+        <div class="menu-element menu-item-group task-menu-item">
+            <div
+                class="change-color menu-item"
+                (click)="changeSubmenu('add-task')">
+                <ellipso-icon>content_copy</ellipso-icon>
+                Add Tasks
+            </div>
+            <div
+                class="change-color menu-item"
+                (click)="changeSubmenu('list-tasks')">
+                List Tasks
+            </div>
         </div>
         <div
-            class="change-color menu-item"
+            class="change-color menu-item menu-element"
             (click)="changeSubmenu('color-picker')">
             <ellipso-icon>palette</ellipso-icon>
-            Edit Color
+            Change Color
         </div>
         <div
-            class="change-color menu-item"
+            class="change-color menu-item menu-element"
             (click)="onDuplicate()">
             <ellipso-icon>content_copy</ellipso-icon>
             Duplicate Object
         </div>
         <div
-            class="change-color menu-item error"
+            class="change-color menu-item menu-element error"
             (click)="changeSubmenu('delete-confirm')">
             <ellipso-icon class="error">delete_forever</ellipso-icon>
             Delete
@@ -67,6 +80,89 @@
     </div>
 
     <div
+        class="add-task submenu"
+        *ngIf="submenu == 'add-task'">
+        <h3>Add Task</h3>
+        <div class="img-container">
+            <app-draw-notes
+                #drawingCanvas
+                [size]="'small'"
+                [drawing]="drawingObj.drawing" />
+        </div>
+        <button
+            ellipso-ghost-button
+            style="background-color: white"
+            (click)="onAddResponsibility(drawingCanvas.serializeDrawing())">
+            Set Responsibility
+        </button>
+        <button
+            ellipso-ghost-button
+            (click)="addTask(drawingCanvas.serializeDrawing())">
+            Save
+        </button>
+    </div>
+    <div
+        class="set-responsibility submenu"
+        *ngIf="submenu == 'add-task-responsibility'">
+        <div style="position: absolute; left: 50%; top: 30%; transform: translateX(-50%) translateY(-50%)">
+            <app-circle-menu
+                [sections]="innerMenuSections"
+                (sectionSelected)="selectResponsibility($event)"
+                [numberOfSections]="4"
+                [size]="180"
+                [centerX]="90"
+                [centerY]="90"
+                [innerRadius]="20"
+                [outerRadius]="88"></app-circle-menu>
+            <div
+                style="position: absolute; left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%)">
+                <button
+                    (click)="submenu = 'add-task'"
+                    ellipso-icon-button
+                    style="
+                        background: white;
+                        border-radius: 50%;
+                        transform: translateY(-2px);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 40px;
+                        height: 40px;
+                    ">
+                    <ellipso-icon style="color: var(--success)">check</ellipso-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div
+        class="tasks-list submenu"
+        *ngIf="submenu == 'list-tasks'">
+        <h3>Tasks</h3>
+        <div
+            class="task-list--item"
+            *ngFor="let task of item.tTasks">
+            <div class="responsibilities">
+                <ellipso-avatar
+                    size="xsmall"
+                    *ngFor="let responsibility of task.responsibility"
+                    [avatarUrl]="responsibility.image" />
+            </div>
+            <div class="img-container">
+                <img
+                    [src]="task.image"
+                    alt="Checkmark" />
+            </div>
+            <div class="actions-container">
+                <button
+                    ellipso-icon-button
+                    (click)="removeTask(task)">
+                    <ellipso-icon class="error">delete</ellipso-icon>
+                </button>
+            </div>
+        </div>
+        <button ellipso-ghost-button>Add Task</button>
+    </div>
+    <div
         class="add-note submenu"
         *ngIf="submenu == 'add-note'">
         <app-draw-notes
@@ -81,7 +177,7 @@
     </div>
 
     <button
-        *ngIf="submenu != 'main'"
+        *ngIf="submenu != 'main' && submenu != 'add-task-responsibility'"
         class="back-button"
         ellipso-icon-button
         (click)="changeSubmenu('main')"
@@ -89,6 +185,7 @@
         <ellipso-icon>arrow_back</ellipso-icon>
     </button>
     <button
+        *ngIf="submenu != 'add-task-responsibility'"
         class="close-button"
         ellipso-icon-button
         (click)="closed.emit()"

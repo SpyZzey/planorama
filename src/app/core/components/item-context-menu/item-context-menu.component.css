@@ -1,5 +1,5 @@
 .item-context-container {
-    width: 200px;
+    min-width: 200px;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.05);
     background: white;
     border-radius: 12px;
@@ -7,7 +7,7 @@
     animation: fadeIn 0.5s;
     z-index: 3;
 }
-.item-context-container:has(.menu-item:last-child:hover)::after {
+.item-context-container:has(.menu-element:last-child:hover)::after {
     border-color: var(--background-hover) transparent transparent transparent;
 }
 
@@ -62,9 +62,6 @@
     > ellipso-icon {
         font-size: 1.2rem;
     }
-    &:not(:last-child) {
-        border-bottom: 1px solid var(--border);
-    }
     &:hover {
         background: var(--background-hover);
     }
@@ -72,7 +69,49 @@
         background: var(--background-active);
     }
 }
+.task-menu-item {
+    > .menu-item:nth-child(1) {
+        flex: 1;
+        display: flex;
+        justify-content: start;
+    }
+    > .menu-item:nth-child(2) {
+        flex: 0 0 50px;
+        text-align: center;
+        border-left: 1px dashed var(--border);
+    }
+}
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.menu-item-group {
+    display: flex;
+    flex-direction: row;
+}
+.menu-item-group > .menu-item {
+    flex: 1;
+    justify-content: center;
+}
+.item-selection-menu {
+    position: relative;
+    z-index: 5;
+}
 
+.menu-element:not(:last-child) {
+    border-bottom: 1px solid var(--border);
+}
+
+.menu-item-group {
+    display: flex;
+    flex-direction: row;
+}
+.menu-item-group > .menu-item {
+    flex: 1;
+    justify-content: center;
+}
 .submenu {
     padding: 6px;
     display: flex;
@@ -98,5 +137,55 @@
     }
     to {
         opacity: 1;
+    }
+}
+.add-task > h3,
+.tasks-list > h3 {
+    margin: 0;
+    text-align: center;
+}
+.add-task {
+    padding: 8px 16px;
+}
+.tasks-list {
+    padding: 8px 16px;
+    min-width: 300px;
+}
+.task-list--item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 60px;
+    > .img-container {
+        flex: 1;
+        max-width: 100%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > img {
+            width: 100%;
+            height: auto;
+        }
+    }
+    > .actions-container {
+        flex: 0 0 32px;
+        width: 32px !important;
+        max-width: 32px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        > button {
+            min-width: 32px !important;
+            flex: 0 0 32px;
+            width: 32px !important;
+            max-width: 32px !important;
+        }
+    }
+    > .responsibilities {
+        margin-right: 8px;
+        display: flex;
+        gap: 4px;
+        align-items: center;
     }
 }
